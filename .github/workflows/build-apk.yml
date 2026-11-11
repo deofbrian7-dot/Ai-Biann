@@ -30,12 +30,14 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
-        with:
-          packages: |
-            platform-tools
-            platforms;android-35
-            build-tools;35.0.0
-          accept-android-sdk-licenses: true
+
+      - name: Install Android SDK 34
+        run: |
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          "$SDKMANAGER" --licenses || true
+          "$SDKMANAGER" --install "platforms;android-34"
+          "$SDKMANAGER" --install "build-tools;34.0.0"
+          "$SDKMANAGER" --install "platform-tools"
 
       - name: Extract project
         run: unzip -o BIANXYTER-AI-GitHub-Build.zip -d project
