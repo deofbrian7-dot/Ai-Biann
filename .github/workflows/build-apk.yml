@@ -29,13 +29,16 @@ jobs:
           gradle-version: "8.9"
 
       - name: Setup Android SDK
-        run: |
-          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
-          yes | sdkmanager --licenses || true
-          sdkmanager --install "platforms;android-35" "build-tools;35.0.0" "platform-tools"
+        uses: android-actions/setup-android@v3
+        with:
+          packages: |
+            platform-tools
+            platforms;android-35
+            build-tools;35.0.0
+          accept-android-sdk-licenses: true
 
       - name: Extract project
-        run: unzip BIANXYTER-AI-GitHub-Build.zip -d project
+        run: unzip -o BIANXYTER-AI-GitHub-Build.zip -d project
 
       - name: Build APK
         run: gradle -p project --no-daemon assembleDebug
